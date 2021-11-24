@@ -3,39 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zineb <zineb@student.42.fr>                +#+  +:+       +#+        */
+/*   By: zzarrafa <zzarrafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/08 00:13:21 by zineb             #+#    #+#             */
-/*   Updated: 2021/08/13 22:02:02 by zineb            ###   ########.fr       */
+/*   Updated: 2021/11/24 12:04:16 by zzarrafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
+#include <iostream>
+#include <string>
+#include <memory>
+#include <iterator>
 
+namespace ft{
 
-template < class T, class Alloc = allocator<T>>
+template < class T, class Alloc = std::allocator<T> >
  
 class vector
 {
 private:
     typedef T value_type;
+    
     typedef Alloc allocator_type;
+    
     typedef allocator_type::reference reference ;
+    
     typedef allocator_type::const_reference const_reference	;
-    typedef pointer	allocator_type::pointer;
+
+    typedef typenameallocator_type::pointer pointer;
+    
    typedef	allocator_type::const_pointer const_pointer;
+   
+//    typedef typename std::random_access_iterator_tag iterator;
+
+//    typedef std::random_access_iterator_tag  const_iterator;
+   
 public: 
     vector(/* args */);
     ~vector();
+    
     vector(const vector &cp);
+
     vector & operator=(const vector &rhs);
+    
     void get_allocator();
     
 };
 
 vector::vector(/* args */)
 {
+    
 }
 
 vector::~vector()
 {
+}
 }
