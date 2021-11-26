@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zineb <zineb@student.42.fr>                +#+  +:+       +#+        */
+/*   By: zzarrafa <zzarrafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/08 00:13:21 by zineb             #+#    #+#             */
-/*   Updated: 2021/11/24 22:29:26 by zineb            ###   ########.fr       */
+/*   Updated: 2021/11/26 19:57:09 by zzarrafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ namespace ft
     class vector
     {
     private:
+            T *_vec;
+            size_t n;
+
         typedef T value_type;
 
         typedef Alloc allocator_type;
@@ -37,16 +40,36 @@ namespace ft
         typedef allocator_type::const_pointer const_pointer;
 
         typedef ft::random_access_iterator<value_type> iterator
-            //    typedef std::random_access_iterator_tag  const_iterator;
+        typedef ft::random_access_iterator<const value_type>  const_iterator;
+        
+        
 
-            public : vector(/* args */);
-        ~vector();
+            public : 
+            vector(int c)
+            {
+                _vec = Alloc.allocate(c);
+                n = 0;
+            }
+            void push_back(T c)
+            {
+                this->_vec[size] = c;
+                size++;
+            }
+            ~vector();
 
-        vector(const vector &cp);
+            vector(const vector &cp);
 
-        vector &operator=(const vector &rhs);
+            vector &operator=(const vector &rhs);
 
-        void get_allocator();
+            void get_allocator();
+
+
+            random_access_iterator begin()
+            {
+                return random_access_iterator(&_vec[0]);
+            }
+            
+            
     };
 
     vector::vector(/* args */)
