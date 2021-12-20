@@ -6,7 +6,7 @@
 /*   By: zzarrafa <zzarrafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:49:48 by zzarrafa          #+#    #+#             */
-/*   Updated: 2021/12/20 19:02:43 by zzarrafa         ###   ########.fr       */
+/*   Updated: 2021/12/20 21:49:17 by zzarrafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ namespace ft
                 }
                 
                 
-              value_type  operator *()
+              value_type & operator *()
                 {
                     return *_ptr;
                 }
@@ -99,23 +99,27 @@ namespace ft
             }
             difference_type operator-(const random_access_iterator& rhs) const 
             {
-                return _ptr-rhs.ptr;
+                return _ptr-rhs._ptr;
             }
             random_access_iterator operator+(difference_type rhs) const 
             {
-                return Iterator(_ptr+rhs);
+                return random_access_iterator(_ptr+rhs);
             }
             random_access_iterator operator-(difference_type rhs) const 
             {
-                return Iterator(_ptr-rhs);
+                return random_access_iterator(_ptr-rhs);
+            }
+            friend     difference_type operator+( const random_access_iterator &lhs, const random_access_iterator& rhs) 
+            {
+                return lhs._ptr - rhs._ptr;
             }
        friend     random_access_iterator operator+(difference_type lhs, const random_access_iterator& rhs) 
             {
-                return Iterator(lhs+rhs._ptr);
+                return random_access_iterator(lhs+rhs._ptr);
             }
       friend      random_access_iterator operator-(difference_type lhs, const random_access_iterator& rhs)
              {
-                 return Iterator(lhs-rhs.base());
+                 return random_access_iterator(lhs-rhs.base());
              }
              bool operator==(const random_access_iterator& rhs) const 
              {

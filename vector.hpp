@@ -6,7 +6,7 @@
 /*   By: zzarrafa <zzarrafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/08 00:13:21 by zineb             #+#    #+#             */
-/*   Updated: 2021/12/20 19:11:28 by zzarrafa         ###   ########.fr       */
+/*   Updated: 2021/12/20 21:47:15 by zzarrafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ namespace ft
           _size = n;
           _capacity = n;
           for   (size_t i=0;i<=n;i++)
-            myalloc.construct(_vec + i, n);
+            myalloc.construct(_vec + i, val);
       }
       vector (const vector& x)
       {
@@ -80,20 +80,20 @@ namespace ft
           
       }
 
-      template <class InputIterator>
-         vector (InputIterator first, InputIterator last,
-                 const allocator_type& alloc = allocator_type())
-                {
-                    size_t size = &(*last) - &(*first);
-                    _vec = myalloc.alloc(size);
-                    for(size_t i=0;i<size;i++)
-                    {
-                         myalloc.construct(_vec + i, *first); 
-                         ++first; 
-                    }
-                    this->_size = size;
-                    this->_capacity = size;
-                }
+    //   template <class InputIterator>
+    //      vector (InputIterator first, InputIterator last,
+    //              const allocator_type& alloc = allocator_type())
+    //             {
+    //                 size_t size = last - first;
+    //                 _vec = myalloc.allocate(size);
+    //                 for(size_t i=0;i<size;i++)
+    //                 {
+    //                      myalloc.construct(&_vec[i], first); 
+    //                      ++first; 
+    //                 }
+    //                 this->_size = size;
+    //                 this->_capacity = size;
+    //             }
 
           
         
@@ -142,8 +142,6 @@ namespace ft
                         myalloc.deallocate( _vec, _capacity);
                 
             };
-
-
             vector &operator=(const vector &rhs);
 
             void get_allocator();
@@ -178,7 +176,6 @@ namespace ft
                 if (n > this->capacity())
                 {
                     reserve(n);
-                    
                 
                 }
                 else {
@@ -279,7 +276,6 @@ namespace ft
                 this->_size++;
             }
 
-                
             void  pop_back() 
             {
                 if (this->_capacity == 0 || this->_size == 0)
@@ -289,9 +285,44 @@ namespace ft
             }
             iterator erase (iterator position)
             {
+                ptrdiff_t diff= position - begin();
+                for(size_type i = diff;i<_size -1;i++)
+                {
+                    myalloc.destroy(_vec + i);
+                    myalloc.construct(_vec + i, _vec[i + 1]);
+                }
+                _size--;
+                myalloc.destroy(_vec + _size);
+                return  position;
+            }
+            iterator erase (iterator first, iterator last)
+            {
+                ptrdiff_t diff = first - begin();
+                ptrdiff_t n = last - first;
+                for(size_type i = diff;i <n;i++)
+                    myalloc.destroy(_vec + i);
+                _size = _size - n;
+                for(size_type i = diff;i< _size;i++)  
+                    _vec[i] = _vec[i + n];
+                
+                return first;
+            }
+            void swap (vector& x)
+            {
+                std::swap(_capacity, x._capacity);
+                std::swap(_size, x._size);
+                std::swap(_vec, x._vec);
                 
             }
-        
+        void clear()
+        {
+            for(size_type i =0;i<_size;i++)
+            {
+                myalloc.destroy(_vec + i);
+               
+            }
+            _size = 0;
+        }
         private:
             value_type *_vec;
             size_t _size;
