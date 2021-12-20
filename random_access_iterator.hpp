@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   iterators.hpp                                      :+:      :+:    :+:   */
+/*   random_access_iterator.hpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zzarrafa <zzarrafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:49:48 by zzarrafa          #+#    #+#             */
-/*   Updated: 2021/11/30 14:48:48 by zzarrafa         ###   ########.fr       */
+/*   Updated: 2021/12/20 19:02:43 by zzarrafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,6 @@ namespace ft
                 {
                     this->_ptr = p;
                 }
-
-         
-
-                
 
                 random_access_iterator ( random_access_iterator  const &itr)
                 {
@@ -91,12 +87,12 @@ namespace ft
                 --_ptr;
                  return *this;
             }
-            random_access_iterator operator++(int) const 
+            random_access_iterator operator++(int) 
             {
                 random_access_iterator tmp(*this); ++_ptr; 
                 return tmp;
             }
-            random_access_iterator operator--(int) const 
+            random_access_iterator operator--(int) 
             {
                 random_access_iterator tmp(*this); --_ptr; 
                 return tmp;

@@ -6,7 +6,7 @@
 /*   By: zzarrafa <zzarrafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 20:42:00 by zzarrafa          #+#    #+#             */
-/*   Updated: 2021/12/06 22:49:36 by zzarrafa         ###   ########.fr       */
+/*   Updated: 2021/12/08 20:43:41 by zzarrafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <memory>
 #include <iterator>
 
-template< class Iter >
+template< class T >
 class iterator_traits
 {
     private:

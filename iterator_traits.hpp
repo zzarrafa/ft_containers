@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack.hpp                                          :+:      :+:    :+:   */
+/*   iterator_traits.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zzarrafa <zzarrafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/06 22:50:47 by zzarrafa          #+#    #+#             */
-/*   Updated: 2021/12/20 15:31:40 by zzarrafa         ###   ########.fr       */
+/*   Created: 2021/12/04 13:09:22 by zzarrafa          #+#    #+#             */
+/*   Updated: 2021/12/08 20:11:03 by zzarrafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,17 @@
 #include <string>
 #include <memory>
 #include <iterator>
-#include "random_access_iterator.hpp"
-#include <deque>
 
-
-template <class T, class Container = vector > 
-class stack
+template< class Iter >
+class iterator_traits
 {
-    
+    private:
+    Iter ite;
+    public:
+    typedef Iter iterator_type;
+    typedef typename Iter::pointer pointer;
+  typedef typename Iter::reference reference;
+  typedef typename Iter::size_type size_type;
+  typedef typename Iter::difference_type difference_type;
+  typedef typename Iter::iterator_category iterator_category;
 };

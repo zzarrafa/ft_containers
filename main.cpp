@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include "iterators.hpp"
+#include "random_access_iterator.hpp"
 int main()
 {
     ft::vector<int> c(5);
@@ -12,8 +12,12 @@ int main()
     c.push_back(54);
 
     ft::vector<int>::iterator it = c.begin();
-    ++it;  
-    std::cout << *it << std::endl;
+    ft::vector<int>::iterator ite = c.end();
+    while(it != ite)
+    {
+        std::cout << *it << std::endl;
+        it++;
+    }
     // std::vector<int>::iterator cc =c.begin();
     // *cc++;
     // // cc-= 1;

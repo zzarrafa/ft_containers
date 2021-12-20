@@ -6,7 +6,7 @@
 /*   By: zzarrafa <zzarrafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/08 00:13:21 by zineb             #+#    #+#             */
-/*   Updated: 2021/12/06 22:50:15 by zzarrafa         ###   ########.fr       */
+/*   Updated: 2021/12/20 19:11:28 by zzarrafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <memory>
 #include <iterator>
 #include "random_access_iterator.hpp"
+#include "enable_if.hpp"
 
 namespace ft
 {
@@ -24,8 +25,6 @@ namespace ft
 
     class vector
     {
-
-            
             
     public :
         typedef T value_type;
@@ -39,7 +38,8 @@ namespace ft
 
         typedef typename allocator_type::pointer pointer;
 
-        // typedef allocator_type::const_pointer const_pointer;
+        typedef typename allocator_type::const_pointer const_pointer;
+        typedef size_t  size_type; 
 
         typedef ft::random_access_iterator<value_type> iterator;
         typedef ft::random_access_iterator<const value_type>  const_iterator;
@@ -54,29 +54,26 @@ namespace ft
       }
 
       
-      vector (const allocator_type& alloc = allocator_type())
+       vector (const allocator_type& alloc = allocator_type())
       {
           _size = 0;
           _capacity = 0;
           myalloc = alloc;
       }
-      vector (size_type n, const value_type& val = value_type()
+      vector (size_type n, const value_type& val = value_type())
       {
-          _vec = myalloc.allocate(c);
+          _vec = myalloc.allocate(n);
           _size = n;
           _capacity = n;
-          for   (size_t i=0;i<=n;i++;)
-          {
-          myalloc.construct(_vec + i, n);
-              
-          }
+          for   (size_t i=0;i<=n;i++)
+            myalloc.construct(_vec + i, n);
       }
       vector (const vector& x)
       {
           _size = x.size();
           _vec = myalloc.allocate(_size);
-          _capacity = x.capacity()  
-          for   (size_t i=0;i<=_size;i++;)
+          _capacity = x.capacity();
+          for   (size_t i=0;i<=_size;i++)
           {
           myalloc.construct(_vec + i, x);  
         }
@@ -123,30 +120,18 @@ namespace ft
             }
             reference front()
             {
-                return (_vec[0])
+                return (_vec[0]);
             }
             const_reference front() const
             {
-                return (_vec[0])
+                return (_vec[0]);
             }
             reference back()
             {
-                return (_vec[this->size() - 1])
+                return (_vec[this->size() - 1]);
                 
             }
-            // vector(int c)
-            // {
-            //     _vec = myalloc.allocate(c);
-            //     // n = 0;
-            // }
-            void push_back(T c)
-            {
-                // this->_vec[_size] = c;
-
-                //check if reach the capacity
-                myalloc.construct(_vec+_size, c );
-                _size++;
-            }
+    
             ~vector()
             {
 
@@ -158,11 +143,6 @@ namespace ft
                 
             };
 
-            vector(const vector &cp) 
-            {
-                 _vec = myalloc.allocate(cp.capacity());
-                
-            }
 
             vector &operator=(const vector &rhs);
 
@@ -181,13 +161,13 @@ namespace ft
              const_iterator end() const
             {
                 
-                return iterator(&_vec[size()])
+                return iterator(&_vec[size()]);
             }
             
             iterator end()
             {
                 
-                return iterator(&_vec[size()])
+                return iterator(&_vec[size()]);
             }
             size_t capacity()
             {
@@ -195,19 +175,128 @@ namespace ft
             }
             void resize (size_type n, value_type val = value_type())
             {
+                if (n > this->capacity())
+                {
+                    reserve(n);
+                    
                 
+                }
+                else {
+                    int i = n;
+                    while (i <this->size())
+                    {
+                        myalloc.destroy(*_vec + i);
+                        i++;
+                    }
+                    // rest size
+                    
+                }
+            }
+           bool empty() const { 
+               if (_size == 0)
+                return true;
+               else
+                return false; 
+            }
+            iterator insert (iterator position, const value_type& val)
+            {
+                if (this->size() +1 > this->capacity())
+                {
+                    reserve(this->capacity() * 2); 
+                }
+                size_t  pos = _vec - &(*position);
+                
+                int i = this->size();
+                while (i >= pos)
+                {
+                    _vec[i+1] = _vec[i];
+                    i--;
+                }
+                _vec[pos] = val;
+                //iterator(T *)
+                return iterator(_vec + pos);
             }
 
+             void insert (iterator position, size_type n, const value_type& val)
+             {
+                
+                 //check n
+                if (this->size() +n > this->capacity())
+                {
+                    reserve(((this->capacity() * 2   <   n ) ? this->capacity() * 2  : n+this->capcity())  ); 
+                }
+                int i = this->size();
+                int j = this->size() + n;
+                int count = 0;
+                while (count < n)
+                {
+                    _vec[j] = _vec[i];
+                    j--;
+                    i--;
+                    count++;
+                }
+                
+             }
+             template <class InputIterator>
+            void insert (iterator position, InputIterator first, InputIterator last, typename enable_if<!is_integral<InputIterator>::value_type, InputIterator>::type = InputIterator())
+            {
+                int i;
+                int n = last - first;
+                int pos = pos -begin();
+                if (this->size() +n > this->capacity())
+                {
+                    reserve(((this->capacity() * 2   <   n ) ? this->capacity() * 2  : n+this->capcity())  ); 
+                }
+                i =pos;
+                while (i < n)
+                {
+                    _vec[i]= *first;
+                }
+                
+            }  
+            void reserve (size_type n)
+            {
+                int i = 0;
+                if (this->capacity() < n)
+                {
+                    T *tmp = myalloc.allocate(n);
+                    while (i < this->size())
+                    {
+                        tmp[i] = _vec[i];
+                        i++;
+                    }
+                    _vec = tmp;
+                    this->_capacity = n;
+                }
+            }
+           void  push_back (const value_type& val) 
+           {
+                if (this->_capacity == 0) 
+                    reserve(1);
+                if (this->_size + 1 > this->_capacity)
+                     reserve(this->_capacity * 2);
+                this->_vec[_size] = val;
+                this->_size++;
+            }
 
-            
-
-
+                
+            void  pop_back() 
+            {
+                if (this->_capacity == 0 || this->_size == 0)
+                    return ;
+                myalloc.destroy(&_vec[this->_size]);
+                this->_size--;
+            }
+            iterator erase (iterator position)
+            {
+                
+            }
+        
         private:
             value_type *_vec;
             size_t _size;
             size_t _capacity;
-            allocator_type myalloc;
-            
+            allocator_type myalloc ;     
     };
 
    

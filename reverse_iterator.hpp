@@ -6,7 +6,7 @@
 /*   By: zzarrafa <zzarrafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 13:20:28 by zzarrafa          #+#    #+#             */
-/*   Updated: 2021/12/02 20:41:31 by zzarrafa         ###   ########.fr       */
+/*   Updated: 2021/12/20 15:29:38 by zzarrafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,28 +63,23 @@ class reverse_iterator
       --ite;
     return *this;
   }
-// reverse_iterator  operator++(int)
-// {
-//     reverse_iterator out(*this);
-//     --ite;
-//     return out;
-// }
+reverse_iterator  operator++(int)
+{
+    reverse_iterator out(*this);
+    --ite;
+    return out;
+}
 reverse_iterator& operator--()
 {
     ++ite;
     return *this;
 }
-// reverse_iterator  operator--(int)
-// {
-//     reverse_iterator out(*this);
-//     ++ite;
-//     return out;
-// }
-
-
-  
-˜
-  
+reverse_iterator  operator--(int)
+{
+    reverse_iterator out(*this);
+    ++ite;
+    return out;
+}
   
     
 }
