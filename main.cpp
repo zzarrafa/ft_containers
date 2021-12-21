@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "random_access_iterator.hpp"
+#include "enable_if.hpp"
 // int main()
 // {
 //     ft::vector<int> c(5);
@@ -18,11 +19,11 @@
 //         std::cout << *it << std::endl;
 //         it++;
 //     }
-    // ft::vector<int>::iterator cc =c.begin();
-    // *cc++;
-    // // cc-= 1;
-    // std::cout << *cc <<  std::endl;
-    // std::cout << c[0] <<  std::endl;
+// ft::vector<int>::iterator cc =c.begin();
+// *cc++;
+// // cc-= 1;
+// std::cout << *cc <<  std::endl;
+// std::cout << c[0] <<  std::endl;
 
 // int main ()
 // {
@@ -61,28 +62,52 @@
 //   return 0;
 // }
 
-int main ()
+// int main ()
+// {
+//   std::vector<int> myvector;
+//   myvector.push_back (100);
+//   myvector.push_back (200);
+//   myvector.push_back (300);
+
+//   std::cout << "myvector contains:";
+//   for (unsigned i=0; i<myvector.size(); i++)
+//     std::cout << ' ' << myvector[i];
+//   std::cout << '\n';
+
+//   myvector.clear();
+//   myvector.push_back (1101);
+//   myvector.push_back (2202);
+
+//   std::cout << "myvector contains:";
+//   for (unsigned i=0; i<myvector.size(); i++)
+//     std::cout << ' ' << myvector[i];
+//   std::cout << '\n';
+
+//   return 0;
+// }
+int main()
 {
-  std::vector<int> myvector;
-  myvector.push_back (100);
-  myvector.push_back (200);
-  myvector.push_back (300);
+  ft::vector<int> myvector(3, 100);
+  ft::vector<int>::iterator it;
+
+  it = myvector.begin();
+  it = myvector.insert(it, 200);
+
+  myvector.insert(it, 2, 300);
+
+  // "it" no longer valid, get a new one:
+  it = myvector.begin();
+
+  ft::vector<int> anothervector(2, 400);
+  myvector.insert(it + 2, anothervector.begin(), anothervector.end());
+
+  int myarray[] = {501, 502, 503};
+  myvector.insert(myvector.begin(), myarray, myarray + 3);
 
   std::cout << "myvector contains:";
-  for (unsigned i=0; i<myvector.size(); i++)
-    std::cout << ' ' << myvector[i];
-  std::cout << '\n';
-
-  myvector.clear();
-  myvector.push_back (1101);
-  myvector.push_back (2202);
-
-  std::cout << "myvector contains:";
-  for (unsigned i=0; i<myvector.size(); i++)
-    std::cout << ' ' << myvector[i];
+  for (it = myvector.begin(); it < myvector.end(); it++)
+    std::cout << ' ' << *it;
   std::cout << '\n';
 
   return 0;
 }
-
-
