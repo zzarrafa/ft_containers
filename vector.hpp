@@ -268,6 +268,43 @@ namespace ft
             }
             _size += n;
         }
+template <class InputIterator>
+            void insert (iterator position, InputIterator first, InputIterator last, 	typename ft::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type = InputIterator())
+            {
+                size_type  size = std::distance(first, last);
+                 size_type pos;
+                // if (this->size() != 0)
+                     pos = std::distance(begin(), position);
+                if (_size == 0)
+                    pos = 0;
+                if (this->_size + size > this->_capacity)
+                {
+                    // reserve(this->_capacity  + size);
+                    reserve(((this->_capacity * 2)  > size  ? (this->_capacity * 2)  : size + this->_capacity ));
+                }
+                size_t i =  this->size() - 1 + size;
+                size_t j  = pos;
+                while (i >= pos +size)
+                {
+                    _myallocator.construct(_vec  + i,  this->_vec[j]);
+                    i--;
+                    j++;
+                }
+        
+                i = pos;
+                //  std::cout << "size is " << size <<  "  k = " << pos << std::endl;
+                while ( i < pos + size)
+                {
+                    // insert(position, *first);
+                    // std::cout << "nice ->" <<  pos + i  << "====" << _capacity << " " << *first <<  std::endl;
+                     _myallocator.construct(_vec  + i,  *first);
+                     this->_size++;
+                    ++first;
+                    ++position;
+                    i++;
+                }
+                this->_end = this->_vec + this->_size;
+            }
 
         void reserve(size_type n)
         {
