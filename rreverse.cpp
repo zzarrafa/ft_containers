@@ -189,3 +189,46 @@
 // {
 //   return ReverseRAI<Iterator>(x.base() - n);
 // }
+// #include "vector.hpp"
+// #include "random_access_iterator.hpp"
+
+
+
+// int main ()
+// {
+//   unsigned int i;
+//   ft::Vector<int> foo (3,100);   // three ints with a value of 100
+//   ft::Vector<int> bar (5,200);   // five ints with a value of 200
+
+//   foo.swap(bar);
+
+//   std::cout << "foo contains:";
+//   for (ft::Vector<int>::iterator it = foo.begin(); it!=foo.end(); ++it)
+//     std::cout << ' ' << *it;
+//   std::cout << '\n';
+
+//   std::cout << "bar contains:";
+//   for (ft::Vector<int>::iterator it = bar.begin(); it!=bar.end(); ++it)
+//     std::cout << ' ' << *it;
+//   std::cout << '\n';
+
+//   return 0;
+// }
+// #include "stack.hpp"
+// int main ()
+// {
+//   ft::Stack<int> mystack;
+//   int sum (0);
+
+//   for (int i=1;i<=10;i++) mystack.push(i);
+
+//   while (!mystack.empty())
+//   {
+//      sum += mystack.top();
+//      mystack.pop();
+//   }
+
+//   std::cout << "total: " << sum << '\n';
+
+//   return 0;
+// }

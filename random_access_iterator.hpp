@@ -6,7 +6,7 @@
 /*   By: zzarrafa <zzarrafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:49:48 by zzarrafa          #+#    #+#             */
-/*   Updated: 2021/12/20 21:49:17 by zzarrafa         ###   ########.fr       */
+/*   Updated: 2021/12/22 19:25:29 by zzarrafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,25 @@ namespace ft
             typedef ptrdiff_t  difference_type;
             typedef T  * pointer;
             typedef T &reference;
+        
             // typedef Category  iterator_category;
 
                 random_access_iterator()
                 {
                     _ptr = NULL;
                 }
-
+                
+                operator random_access_iterator<const T>()
+                {
+                    return random_access_iterator<const T>(_ptr);
+                }
 
                 random_access_iterator (pointer p)
                 {
                     this->_ptr = p;
                 }
 
-                random_access_iterator ( random_access_iterator  const &itr)
+                random_access_iterator ( const random_access_iterator   &itr)
                 {
                     this->_ptr = itr.base();
                 }
@@ -144,6 +149,12 @@ namespace ft
             {
                 return _ptr <= rhs.base();
             }
+
+
+            //    bool operator==(const random_access_iterator& lhs, const random_access_iterator& rhs) const 
+            // {
+            //     return *lhs == 
+            // }
             
 
 
