@@ -1,10 +1,23 @@
-#include <vector>
-#include <iostream>
-
-int     main()
+#include <iostream>       // std::cout
+#include "vector.hpp"         // std::stack
+#include <string>
+template<class T>
+void  debug(ft::Vector<T> myvec)
 {
-    std::vector<int> vec1(6,6);
-    std::cout << vec1.max_size() << std::endl;
-    vec1.reserve(4611686018427387903 + 1);
-    return 0;
+  std::cout << "[";
+  for(int i = 0; i < myvec.size()-1; i++)
+  {
+    std::cout << myvec[i] << ", ";
+  }
+  std::cout << myvec[myvec.size()-1] << "]" << std::endl;
+}
+int main(void)
+{
+  ft::Vector<std::string> ft_v(20, "string");
+
+  ft_v.insert(ft_v.begin() + 10, 15, "hello");
+
+  debug<std::string>(ft_v);
+
+  return 0;
 }

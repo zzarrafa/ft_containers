@@ -6,7 +6,7 @@
 /*   By: zzarrafa <zzarrafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/08 00:13:21 by zineb             #+#    #+#             */
-/*   Updated: 2021/12/24 18:41:06 by zzarrafa         ###   ########.fr       */
+/*   Updated: 2022/01/31 14:16:07 by zzarrafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <algorithm>
 #include "reverse_iterator.hpp"
 #include <stdexcept>
+#include <new>
 
 namespace ft
 {
@@ -52,7 +53,7 @@ namespace ft
     }
 
  
-    // Vector<int , std::allocr<char>>
+    
 
     template <class T, class Alloc = std::allocator<T> >
 
@@ -94,7 +95,7 @@ namespace ft
           return myalloc.max_size();
       }
 
-      
+      // fill constructor
        Vector (const allocator_type& alloc = allocator_type())
       {
           _size = 0;
@@ -103,7 +104,7 @@ namespace ft
       }
       Vector (size_type n, const value_type& val = value_type())
       {
-        //   std::cerr << "fill constructor->"  << n  << std::endl;
+
           _vec = myalloc.allocate(n);
           _size = n;
           _capacity = n;
@@ -195,7 +196,7 @@ namespace ft
             Vector &operator=(const Vector &rhs)
             {   
 
-                // std::cout << _size << std::endl;
+                
                 if (this->_capacity != 0 )
                 {
                 
@@ -253,21 +254,6 @@ namespace ft
             }
             void resize (size_type n, value_type val = value_type())
             {
-                // if (n > this->capacity())
-                // {
-                //     reserve(n);
-                // }
-                // else {
-                //     int i = n;
-                //     while (i <this->size())
-                //     {
-                //         myalloc.destroy(_vec + i);
-                //         i++;
-                //     }
-                //     // rest size
-                    
-                // }
-            // }
             
             reserve(n);
                 if (this->size() > n)
@@ -308,7 +294,7 @@ namespace ft
                     reserve(this->capacity() * 2); 
                 }
                 
-                // exit(0); 
+               
                 int i = this->size();
                 while (i > pos)
                 {
@@ -327,21 +313,21 @@ namespace ft
              {
                 
                 //  check n
+                // if (n+size() > max_size())
+                //     throw std::bad_alloc();
                 int pos = position - begin();
                                 //   std::cout << pos << std::endl;
 
                 if (this->size() +n > this->capacity())
                 {
                     if (_capacity)
-                        reserve(((this->capacity() * 2   >   n ) ? this->capacity() * 2  : n+this->capacity())  ); 
+                        reserve(((this->capacity() * 2   >   n ) ? this->capacity() * 2:n+this->capacity() )); 
                     else
                         reserve(n);
                 }
-                std::cout << _capacity << "\n";
-                exit(0);
                 int i = this->size() - 1;
                 int j = this->size() + n -1;
-                int count = n;
+                int count = n+size();
                 if (_size){
                  
                     while (count > pos)
@@ -592,7 +578,10 @@ namespace ft
 
         friend bool operator== (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
         {
-            return ft::equal(lhs.begin(),lhs.end(),rhs.begin());
+            if (lhs.size() == rhs.size())
+                return ft::equal(lhs.begin(),lhs.end(),rhs.begin());
+            else
+                return false;
         }
 
         	
