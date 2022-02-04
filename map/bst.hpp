@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bst.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zzarrafa <zzarrafa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zineb <zineb@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 15:14:16 by zzarrafa          #+#    #+#             */
-/*   Updated: 2022/02/02 17:45:44 by zzarrafa         ###   ########.fr       */
+/*   Updated: 2022/02/04 12:46:03 by zineb            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,46 +117,59 @@ namespace ft
             
         }
 
-        node* rotate_left(node** x, node** z)
+        node* rotate_left(node* x, node* z)
         {
-            std::cout << "rotate left [" << (*x)->data << " | " << (*z)->data << "]" << std::endl;
-            node* t23;
-            node* papa = (*x)->parent;
-            t23= (*z)->left;
-            (*x)->right = t23;
-            if(t23 != NULL)
-                t23->parent= *x;
-            std::cout << "@@" << std::endl;
-            (*z)->left = *x;
-            (*x)->parent = *z;
-            (*z)->parent = papa;
+            // std::cout << "rotate left [" << (*x)->data << " | " << (*z)->data << "]" << std::endl;
             
-            (*x)->height = max(height((*x)->right), height((*x)->left)) + 1;
-            (*z)->height = max(height((*z)->right), height((*z)->left)) + 1;
-            (*x)->bf = BF(*x);
-            (*z)->bf = BF(*z);
-            return *z;
+        
+            // std::cout << "kk" << std::endl;
+            node* t23 = x->parent;
+			node* y = z->left;
+			x->right = y;
+			if (y != NULL)
+				y->parent = x;
+			z->left = x;
+			x->parent = z;
+			z->parent = t23;
+			if (t23 == NULL)
+				this->root = z;
+			if (t23  && t23->right == x)
+				t23->right = z;
+			if (t23 && t23->left == x)
+				t23->left = z;
+
+			x->height = max(height(x->right), height(x->left)) + 1;
+			z->height = max(height(z->right), height(z->left)) + 1;
+			x->bf = BF(x);
+			z->bf = BF(x);
+			return z;
         }
          node* rotate_right(node* x, node*z)
         {
-            node* t23;
-            t23= z->right;
-            x->right = t23;
-            if(t23 != NULL)
-                t23->parent= x;
-            z->right = x;
-            x->parent = z;
+           
+            std::cout << "kk" << std::endl;
+            
+            node* t23 = x->parent;
+			node* t24 = z->right;
+			x->left = t24;
+			if (t24 != NULL)
+				t24->parent = x;
+			z->right = x;
+			x->parent = z;
+			z->parent = t23;
+			if (t23 == NULL)
+				this->root = z;
+			if (t23 && t23->right == x)
+				t23->right = z;
+			if (t23 && t23->left == x)
+				t23->left = z;
+                
+                
+			x->height = max(height(x->right), height(x->left)) + 1;
+			z->height = max(height(z->right), height(z->left)) + 1;
 
-            if(z->bf == 0)
-            {
-                x->bf = 1;
-                z->bf = -1;
-            }
-            else
-            {
-                x->bf = 0;
-                z->bf = 0;
-            }
+			x->bf = BF(x);
+			z->bf = BF(x);
             
             return z;
         }
@@ -165,7 +178,7 @@ namespace ft
         {
             std::cout << " rebalance " << nd->bf << std::endl;
             if (nd->bf == 2 && nd->right->bf > 0){
-                rotate_left(&nd, &(nd->right));
+                rotate_left(nd, (nd->right));
                 return 1;
             }
                 
@@ -177,13 +190,13 @@ namespace ft
             else if (nd->bf == 2 && nd->right->bf <=0)
                 {
                     rotate_right(nd->right, nd->right->left);
-                    rotate_left(&nd, &(nd->right));
+                    rotate_left(nd, (nd->right));
                     return 1;
                     }
                 
             else if (nd->bf == -2 && nd->left->bf >=0)
             {
-                rotate_left(&(nd->left), &(nd->left->right));
+                rotate_left((nd->left), (nd->left->right));
                 rotate_right(nd, nd->left);
                 return 1;
             }

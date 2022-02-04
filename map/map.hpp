@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zzarrafa <zzarrafa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zineb <zineb@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 21:05:35 by zineb             #+#    #+#             */
-/*   Updated: 2022/02/02 15:47:57 by zzarrafa         ###   ########.fr       */
+/*   Updated: 2022/02/04 12:53:52 by zineb            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ namespace ft
     typedef typename allocator_type::const_reference const_reference;
     typedef typename allocator_type::pointer pointer;
     typedef typename allocator_type::const_pointer const_pointer;
+    typedef ptrdiff_t		difference_type;
+		typedef size_t			size_type;
     class value_compare
     {
       friend class map;
@@ -46,6 +48,7 @@ namespace ft
       {
         return comp(x.first, y.first);
       }
+      
     };
 
 
