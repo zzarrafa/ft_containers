@@ -6,7 +6,7 @@
 /*   By: zineb <zineb@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 21:05:35 by zineb             #+#    #+#             */
-/*   Updated: 2022/02/05 13:11:17 by zineb            ###   ########.fr       */
+/*   Updated: 2022/02/06 13:58:29 by zineb            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,29 @@ namespace ft
        {
 					*this = x;
 			 }
-          
+       
+       reverse_iterator	rbegin(void)
+       {
+				return reverse_iterator(end());
+			 }
+			const_reverse_iterator	rbegin(void) const
+      {
+				return const_reverse_iterator(end());
+			}
+      
+      reverse_iterator	rend(void)
+      {
+				return reverse_iterator(begin());
+			}
+			const_reverse_iterator	rend(void) const
+      {
+				return const_reverse_iterator(begin());
+			}
+      
+      void swap (map& x){
+				std::swap(this->tree, x.tree);
+				
+			}
 
   private:
   BST<value_type, key_compare>	tree;
@@ -85,4 +107,48 @@ namespace ft
       key_compare comp;
     
   };
+  
+  
+  template < class Key, class T>
+		bool	operator == (const Map<Key, T>& lhs, const Map<Key, T>& rhs){
+			if (lhs.size() == rhs.size())
+				return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+			return false;
+		}
+
+	template < class Key, class T>
+		bool	operator != (const Map<Key, T>& lhs, const Map<Key, T>& rhs)
+    {
+			if (lhs.size() == rhs.size())
+				return !ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+			return false;
+		}
+
+	template < class Key, class T>
+		bool	operator < (const Map<Key, T>& lhs, const Map<Key, T>& rhs)
+    {
+			return ft::lexicographical_compare(lhs.begin(), lhs.end(),
+			rhs.begin(), rhs.end());
+		}
+	template < class Key, class T>
+		bool	operator <= (const Map<Key, T>& lhs, const Map<Key, T>& rhs)
+    {
+			return !ft::lexicographical_compare(rhs.begin(), rhs.end(),
+			lhs.begin(), lhs.end());
+		}
+
+	template < class Key, class T>
+		bool	operator > (const Map<Key, T>& lhs, const Map<Key, T>& rhs)
+    {
+			return ft::lexicographical_compare(rhs.begin(), rhs.end(),
+			lhs.begin(), lhs.end());
+		}
+
+	template < class Key, class T>
+		bool	operator >= (const Map<Key, T>& lhs, const Map<Key, T>& rhs)
+    {
+			return !ft::lexicographical_compare(lhs.begin(), lhs.end(),
+			rhs.begin(), rhs.end());
+		}
+
 }

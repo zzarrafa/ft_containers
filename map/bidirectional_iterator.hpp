@@ -24,6 +24,28 @@ template <class T, class Compare>
         {
 			*this = cp;
         }
+        bidirectional_iterator&	operator=(bidirectional_iterator const  &rhs)
+        {
+
+        }
+        bidirectional_iterator	operator++(int){}
+        bidirectional_iterator	operator++(){}
+        bidirectional_iterator	operator--(int){}
+        bidirectional_iterator	operator++(){}
+        //conversion
+        operator bidirectional_iterator<const T, Compare>() const{}
+
+
+        //comparaison
+
+        template <class T1, class T2, class Compare>
+		bool	operator==(bidirectional_iterator<T1, Compare> lhs, bidirectional_iterator<T2, Compare> rhs){
+			return lhs.ptr == rhs.ptr;
+		}
+	template <class T1, class T2, class Compare>
+		bool	operator!=(bidirectional_iterator<T1, Compare> lhs, bidirectional_iterator<T2, Compare> rhs){
+			return lhs.ptr != rhs.ptr;
+		}
 
         private:
         Compare comp;
