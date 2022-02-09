@@ -6,7 +6,7 @@
 /*   By: zineb <zineb@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 21:05:35 by zineb             #+#    #+#             */
-/*   Updated: 2022/02/06 13:58:29 by zineb            ###   ########.fr       */
+/*   Updated: 2022/02/09 18:50:31 by zineb            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,20 @@ namespace ft
 	
 			allocator_type	allocator;
       key_compare comp;
+      
+      Node* _successor( const key_type& key ) const{
+                Node * successor = nullptr;
+				Node * root = this->_tree.root;
+				while (root != nullptr) {
+					if (key_compare()(key, root->data.first)) {
+						successor = root;
+						root = root->left;
+					}
+					else if (!key_compare()(key, root->data.first))
+						root = root->right;
+				}
+				return (successor);
+            }
     
   };
   
