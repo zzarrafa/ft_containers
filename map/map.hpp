@@ -6,7 +6,7 @@
 /*   By: zineb <zineb@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 21:05:35 by zineb             #+#    #+#             */
-/*   Updated: 2022/02/09 18:50:31 by zineb            ###   ########.fr       */
+/*   Updated: 2022/02/10 13:40:10 by zineb            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,13 @@ namespace ft
 					const allocator_type& alloc = allocator_type()) : allocator(alloc)
           {
 					}
+          map& operator=(map const &obj){
+				// std::cout << "operator=" << std::endl;
+				this->clear();
+				this->insert(obj.begin(),obj.end());
+				this->_allocator = obj._allocator;
+				return *this;
+			}
     // range
     template <class InputIterator>
   map (InputIterator first, InputIterator last,
@@ -98,6 +105,29 @@ namespace ft
       void swap (map& x){
 				std::swap(this->tree, x.tree);
 				
+			}
+      // CAPACITY
+			bool	empty(void) const{return _size == 0;}
+			size_type	size(void) const{ return _size;}
+			size_type	max_size(void) const{ return _allocator.max_size();}
+
+		// ELEMENT ACCESS
+			mapped_type&	operator[] (const key_type& val){
+				 return (*((this->insert(ft::make_pair(val,mapped_type()))).first)).second ;
+			}
+      // OBSERVERS
+			key_compare	key_comp(void) const{
+				key_compare comp;
+				return comp;
+			}
+			value_compare	value_comp(void) const{
+				value_compare comp(key_comp());
+				return comp;
+			}
+      
+      iterator	upper_bound(const key_type& k){
+				Node* succes = _successor(k);
+				return iterator(&(succes->data), tree.root, succes);
 			}
 
   private:
