@@ -6,7 +6,7 @@
 /*   By: zzarrafa <zzarrafa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/08 00:13:21 by zineb             #+#    #+#             */
-/*   Updated: 2022/01/31 14:16:07 by zzarrafa         ###   ########.fr       */
+/*   Updated: 2022/03/01 10:37:46 by zzarrafa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,39 +21,11 @@
 #include "reverse_iterator.hpp"
 #include <stdexcept>
 #include <new>
+#include "map/equal.hpp"
+#include "map/lexico_compare.hpp"
 
 namespace ft
 {
-
-
-    template <class InputIterator1, class InputIterator2>
-  bool lexicographical_compare (InputIterator1 first1, InputIterator1 last1,
-                                InputIterator2 first2, InputIterator2 last2)
-    {
-    while (first1!=last1)
-    {
-        if (first2==last2 || *first2<*first1) return false;
-        else if (*first1<*first2) return true;
-        ++first1; ++first2;
-    }
-    return (first2!=last2);
-    }
-    
-    template <class InputIterator1, class InputIterator2>
-        bool equal (InputIterator1 first1, InputIterator1 last1,
-              InputIterator2 first2)
-    {
-             while (first1!=last1) 
-                {
-                if (!(*first1 == *first2))   // or: if (!pred(*first1,*first2)), for version 2
-                    return false;
-                ++first1; ++first2;
-                }
-            return true;     
-    }
-
- 
-    
 
     template <class T, class Alloc = std::allocator<T> >
 
@@ -123,7 +95,6 @@ namespace ft
 
       template <class InputIterator>
          Vector (InputIterator first, InputIterator last,
-                 const allocator_type& alloc = allocator_type(),
                  typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type = InputIterator())
                 {
                     // std::cerr << "range constructor" << std::endl;
@@ -295,7 +266,7 @@ namespace ft
                 }
                 
                
-                int i = this->size();
+                size_t i = this->size();
                 while (i > pos)
                 {
                     myalloc.construct(_vec +i+1, *(_vec+i));
@@ -346,69 +317,11 @@ namespace ft
                     _size++;
                     i++;
                 }
-                // size_t pos ;
-                 
-                // if (this->size() == 0)
-                //     pos  = 0;
-                // else 
-                //     pos = pos = (&(*position) - this->_vec);
-
-                // if (this->size() + n >= this->capacity())
-                // {
-                //     if (this->capacity()  == 0)
-                //         this->reserve((this->capacity()  + 1) * n );
-                //     else
-                //             this->reserve(this->capacity() * 2 < n ? this->capacity() + n :  this->capacity() * 2);
-                // }
-                // if (this->size() != 0)
-                // {
-                //      size_type j = pos;
-                //     for (size_t i =  this->size() - 1; i < this->_size + n ; i++)
-                //     {
-                //         myalloc.construct(_vec  + i,  this->_vec[j]);
-                //         j++;
-                //     }
-                // }
-                // for (size_t i = 0; i < n; i++)
-                // {
-                //     myalloc.construct(_vec  + pos,  val);
-                //     pos++;
-                // }
-                // this->_size += n;
-                // this->end() = this->_vec + this->size();
+            
+              
 
              }
-            //  template <class InputIterator>
-            // void insert (iterator position, InputIterator first, InputIterator last, typename enable_if<!is_integral<InputIterator>::value_type, InputIterator>::type = InputIterator())
-            // {
-            //     int i;
-            //     int n = last - first;
-            //     int pos = pos -begin();
-            //     if (this->size() +n > this->capacity())
-            //     {
-            //         reserve(((this->capacity() * 2   <   n ) ? this->capacity() * 2  : n+this->capcity())  ); 
-            //     }
-            //     i =pos;
-            //     while (i < n)
-            //     {
-            //         _vec[i]= *first;
-            //     }
-                
-            // } 
-        
-
-
-
-        // void insert_hlp(iterator position, InputIterator first, InputIterator last, iterator_traits c )
-        // {
-            
-        // }
-
-        //       void insert_hlp(iterator position, InputIterator first, InputIterator last, iterator_traits c )
-        // {
-            
-        // }
-        
+           
         
         template <class InputIterator>
         void insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type = InputIterator())
@@ -439,11 +352,8 @@ namespace ft
         
             void reserve (size_type n)
             {
-                int i = 0;
-                // if (n == 0){
-                    
-                //     reserve(1);
-                // }
+                size_t i = 0;
+             
                 if (n > this->max_size())
                     throw std::length_error("t");
                 if (this->capacity() < n)
@@ -499,7 +409,7 @@ namespace ft
             {
                 ptrdiff_t diff = first - begin();
                 ptrdiff_t n = last - first;
-                for(size_type i = diff;i <n;i++)
+                for(ptrdiff_t i = diff; i <n; i++)
                     myalloc.destroy(_vec + i);
                 _size = _size - n;
                 for(size_type i = diff;i< _size;i++)  
@@ -525,16 +435,7 @@ namespace ft
         }
         void assign (size_type n, const value_type& val)
         {
-            // int i;
-
-            // i = 0;
-            // clear();
-            // reserve(n);
-            // while (i < n)
-            // {
-            //     myalloc.construct(_vec + i, val );
-            //     i++;
-            // }
+        
             this->clear();
             resize(n , val);
         }
@@ -542,12 +443,7 @@ namespace ft
         template <class InputIterator>
         void assign (InputIterator first, InputIterator last)
         {
-            // clear();
-            // while (first != last)
-            // {
-            //     this->push_back(*first);
-            //     ++first;
-            // }
+          
             size_type  n = &(*last)   - &(*first);
                 clear();
                 reserve(n);
@@ -625,7 +521,3 @@ namespace ft
             }
    
 }
-
-
-//ft::reverse_iterator<std::vector<int>::iterator>
-//ft::reverse_iterator<std::vector<int>::iterator>
